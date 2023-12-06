@@ -8,6 +8,9 @@ uint32_t timerNow;
 uint8_t mode = 0;
 uint8_t maxMode = 5;
 
+uint32_t colWarmWhite = string.ColorHSV(19000,240);
+
+
 void setup() {
     string.begin();
     string.setBrightness(255);
@@ -129,19 +132,14 @@ void tradAltFlash(uint16_t wait) {
     delay(wait);
 }
 
-void warmWhite(){
-  uint32_t warmWhite = string.ColorHSV(19000,240);
-  for (uint8_t led; led < LED_COUNT; led++) {
-    string.setPixelColor(led, warmWhite);
-  }
-  string.show();
-}
+
 
 void demoReel(uint16_t timeout){
   timerNow = millis();
   switch (mode) {
     case 0:
-      warmWhite();
+      string.fill(colWarmWhite);
+      string.show();
       break;
     case 1:
       rainbow(5);
