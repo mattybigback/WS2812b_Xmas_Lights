@@ -10,7 +10,7 @@ uint8_t maxMode = 5;
 
 void setup() {
     string.begin();
-    string.setBrightness(100);
+    string.setBrightness(255);
     string.show();
     timerThen = millis();
 }
@@ -31,7 +31,7 @@ void rainbow(uint16_t wait) {
 }
 
 
-void static_trad(uint8_t offset) {
+void staticTrad(uint8_t offset) {
   for (uint8_t led; led < LED_COUNT; led++) {
     switch((offset+led) % 4) {
       case 0:
@@ -50,7 +50,7 @@ void static_trad(uint8_t offset) {
   string.show();
 }
 
-void static_expanded(uint8_t offset) {
+void staticExpanded(uint8_t offset) {
   for (uint8_t led; led < LED_COUNT; led++) {
     switch((offset+led) % 7) {
       case 0:
@@ -78,35 +78,35 @@ void static_expanded(uint8_t offset) {
   string.show();
 }
 
-void chasing_trad(uint8_t wait, bool reverse){
+void chasingTrad(uint8_t wait, bool reverse){
   if (reverse){
     for (uint8_t i=4; i>0; i--) {
-      static_trad(i);
+      staticTrad(i);
       delay(wait);
     }
   } else {
     for (uint8_t i=0; i<4; i++) {
-      static_trad(i);
+      staticTrad(i);
       delay(wait);
     }
   }
 }
 
-void chasing_expanded(uint8_t wait, bool reverse){
+void chasingExpanded(uint8_t wait, bool reverse){
   if (reverse){
     for (uint8_t i=7; i>0; i--) {
-      static_expanded(i);
+      staticExpanded(i);
       delay(wait);
     }
   } else {
     for (uint8_t i=0; i<7; i++) {
-      static_expanded(i);
+      staticExpanded(i);
       delay(wait);
     }
   }
 }
 
-void two_color_with_gap(uint8_t color1_g, uint8_t color1_r, uint8_t color1_b, uint8_t color2_g, uint8_t color2_r, uint8_t color2_b, uint8_t offset){
+void twoColorsWithSpace(uint8_t color1_g, uint8_t color1_r, uint8_t color1_b, uint8_t color2_g, uint8_t color2_r, uint8_t color2_b, uint8_t offset){
     for (uint8_t led; led < LED_COUNT; led++) {
       switch((offset+led) % 4) {
         case 0:
@@ -122,33 +122,41 @@ void two_color_with_gap(uint8_t color1_g, uint8_t color1_r, uint8_t color1_b, ui
     }
 }
 
-void trad_alt_flash(uint16_t wait) {
-    two_color_with_gap(255,0,0,0,0,255,0);
+void tradAltFlash(uint16_t wait) {
+    twoColorsWithSpace(255,0,0,0,0,255,0);
     delay(wait);
-    two_color_with_gap(0,255,0,64,255,0,1);
+    twoColorsWithSpace(0,255,0,64,255,0,1);
     delay(wait);
+}
+
+void warmWhite(){
+  uint32_t warmWhite = string.ColorHSV(19000,240);
+  for (uint8_t led; led < LED_COUNT; led++) {
+    string.setPixelColor(led, warmWhite);
+  }
+  string.show();
 }
 
 void demoReel(uint16_t timeout){
   timerNow = millis();
   switch (mode) {
     case 0:
-      chasing_expanded(250, true);
+      warmWhite();
       break;
     case 1:
       rainbow(5);
       break;
     case 2:
-      chasing_expanded(250, false);
+      chasingExpanded(250, false);
       break;
     case 3:
-      trad_alt_flash(250);
+      tradAltFlash(250);
       break;
     case 4:
-      chasing_trad(250, true);
+      chasingTrad(250, true);
       break;
     case 5:
-      static_trad(0);
+      staticTrad(0);
       break;
     default:
       mode=0;
