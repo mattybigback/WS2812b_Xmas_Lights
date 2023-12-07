@@ -81,17 +81,14 @@ void staticExpanded(uint8_t offset) {
   string.show();
 }
 
-void chasingTrad(uint8_t wait, bool reverse){
-  if (reverse){
-    for (uint8_t i=4; i>0; i--) {
-      staticTrad(i);
-      delay(wait);
-    }
-  } else {
-    for (uint8_t i=0; i<4; i++) {
-      staticTrad(i);
-      delay(wait);
-    }
+void chasingTrad(uint8_t wait, bool reverse) {
+  uint8_t start = reverse ? 4 : 0;
+  uint8_t end = reverse ? 0 : 4;
+  int8_t step = reverse ? -1 : 1;
+
+  for (uint8_t i = start; i != end; i += step) {
+    staticTrad(i);
+    delay(wait);
   }
 }
 
@@ -131,8 +128,6 @@ void tradAltFlash(uint16_t wait) {
     twoColorsWithSpace(0,255,0,64,255,0,1);
     delay(wait);
 }
-
-
 
 void demoReel(uint16_t timeout){
   timerNow = millis();
