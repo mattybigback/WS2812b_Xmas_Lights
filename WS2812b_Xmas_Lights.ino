@@ -13,6 +13,7 @@ uint32_t colWarmWhite = string.ColorHSV(3600,240);
 
 void setup() {
     Serial.begin(115200);
+    randomSeed(analogRead(A1));
     string.begin();
     string.setBrightness(255);
     string.show();
@@ -108,33 +109,25 @@ void chasingExpanded(uint8_t wait, bool reverse){
 }
 
 void comet(uint8_t wait, uint16_t hue){
+  const uint8_t saturationValues[] = {255, 255, 255, 252, 250, 248, 242, 238, 230, 220, 200, 0};
+  const uint8_t brightnessValues[] = {30, 50, 70, 90, 110, 150, 150, 160, 160, 180, 200, 255};
+
+
   for (uint8_t i=0; i<LED_COUNT; i++) {
     for (uint8_t j=0; j < LED_COUNT; j++){
       string.setPixelColor(j,0);
     }
-    string.setPixelColor(i % LED_COUNT,     string.ColorHSV(hue,255,30));
-    string.setPixelColor((i+1) % LED_COUNT, string.ColorHSV(hue,255,50));
-    string.setPixelColor((i+2) % LED_COUNT, string.ColorHSV(hue,255,70));
-    string.setPixelColor((i+3) % LED_COUNT, string.ColorHSV(hue,252,90));
-    string.setPixelColor((i+4) % LED_COUNT, string.ColorHSV(hue,250,110));
-    string.setPixelColor((i+5) % LED_COUNT, string.ColorHSV(hue,245,150));
-    string.setPixelColor((i+6) % LED_COUNT, string.ColorHSV(hue,240,150));
-    string.setPixelColor((i+7) % LED_COUNT, string.ColorHSV(hue,230,160));
-    string.setPixelColor((i+8) % LED_COUNT, string.ColorHSV(hue,220,160));
-    string.setPixelColor((i+9) % LED_COUNT, string.ColorHSV(hue,210,180));
-    string.setPixelColor((i+10) % LED_COUNT, string.ColorHSV(hue,190,200));
-    string.setPixelColor((i+11) % LED_COUNT, string.ColorHSV(hue,0,255));
-
-
-
-
-
-
+    
+    for (uint8_t k = 0; k < 12; k++) {
+      string.setPixelColor((i + k) % LED_COUNT, string.ColorHSV(hue, saturationValues[k], brightnessValues[k]));
+    }
 
     string.show();
     delay(wait);
     }
   }
+
+
 
 void twoColorsWithSpace(uint8_t color1_g, uint8_t color1_r, uint8_t color1_b, uint8_t color2_g, uint8_t color2_r, uint8_t color2_b, uint8_t offset){
     for (uint8_t led; led < LED_COUNT; led++) {
@@ -162,10 +155,10 @@ void tradAltFlash(uint16_t wait) {
 void demoReel(uint16_t timeout){
   timerNow = millis();
   switch (mode) {
-    case 1:
-      comet(20, 45000);
-      break;
     case 0:
+      comet(25, random(0,65535));
+      break;
+    case 1:
       string.fill(colWarmWhite);
       string.show();
       break;
