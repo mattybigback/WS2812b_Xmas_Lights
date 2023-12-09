@@ -152,29 +152,41 @@ void tradAltFlash(uint16_t wait) {
     delay(wait);
 }
 
+void monoRainbow(uint8_t increment){
+  for (uint32_t hue = 0; hue < 65535; hue+=increment){
+    for (uint8_t led = 0; led < LED_COUNT; led++){
+      string.setPixelColor(led, string.ColorHSV(hue, 255,255));
+    }
+    string.show();
+  }
+}
+
 void demoReel(uint16_t timeout){
   timerNow = millis();
   switch (mode) {
     case 0:
-      comet(25, random(0,65535));
+      monoRainbow(100);
       break;
     case 1:
+      comet(25, random(0,65535));
+      break;
+    case 2:
       string.fill(colWarmWhite);
       string.show();
       break;
-    case 2:
+    case 3:
       rainbow(5);
       break;
-    case 3:
+    case 4:
       chasingExpanded(250, false);
       break;
-    case 4:
+    case 5:
       tradAltFlash(250);
       break;
-    case 5:
+    case 6:
       chasingTrad(250, true);
       break;
-    case 6:
+    case 7:
       staticTrad(0);
       break;
     default:
