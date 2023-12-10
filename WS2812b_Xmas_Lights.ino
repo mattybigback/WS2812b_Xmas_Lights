@@ -151,10 +151,11 @@ void tradAltFlash(uint16_t wait) {
     delay(wait);
 }
 
-void monoRainbow(uint8_t increment) {
+void monoRainbow(uint8_t increment, uint8_t wait) {
     for (uint32_t hue = 0; hue < 65535; hue += increment) {
         for (uint8_t led = 0; led < LED_COUNT; led++) {
             string.setPixelColor(led, string.ColorHSV(hue, 255, 255));
+            delay(wait);
         }
         string.show();
     }
@@ -169,7 +170,7 @@ void demoReel(uint16_t timeout) {
         comet(25, cometHue, cometHue);
         break;
     case 1:
-        monoRainbow(100);
+        monoRainbow(150, 1);
         break;
     case 2:
         comet(12, 0, 65535);
