@@ -106,7 +106,6 @@ void chasingExpanded(uint8_t wait, bool reverse) {
     }
 }
 
-
 void comet(uint8_t wait, uint16_t hue1, uint16_t hue2) {
     const uint8_t saturationValues[] = {255, 255, 255, 252, 250, 248, 242, 238, 230, 220, 200, 0};
     const uint8_t brightnessValues[] = {30, 50, 70, 90, 110, 150, 150, 160, 160, 180, 200, 255};
@@ -121,7 +120,6 @@ void comet(uint8_t wait, uint16_t hue1, uint16_t hue2) {
                 string.setPixelColor((i + k) % LED_COUNT, string.ColorHSV(hue, saturationValues[k], brightnessValues[k]));
                 hue += 100;
             }
-
             string.show();
             delay(wait);
         }
@@ -140,8 +138,8 @@ void twoColorsWithSpace(uint8_t color1_g, uint8_t color1_r, uint8_t color1_b, ui
         default:
             string.setPixelColor(led, 0, 0, 0);
         }
-        string.show();
     }
+    string.show();
 }
 
 void tradAltFlash(uint16_t wait) {
