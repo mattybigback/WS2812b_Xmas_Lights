@@ -1,20 +1,20 @@
 #include <Adafruit_NeoPixel.h>
-#define LED_COUNT 50
-#define LED_PIN 23
+#define LED_COUNT 60
+#define LED_PIN 16
 
 Adafruit_NeoPixel string(LED_COUNT, LED_PIN, NEO_RGB + NEO_KHZ800);
 uint32_t timerThen;
 uint32_t timerNow;
 uint8_t mode = 0;
 
-uint32_t colWarmWhite = string.ColorHSV(3600, 240);
+uint32_t colWarmWhite = string.ColorHSV(3600, 240, 255);
 
 void setup() {
     analogReadResolution(8);
     uint8_t seed = analogRead(26);
     randomSeed(seed);
     string.begin();
-    string.setBrightness(255);
+    string.setBrightness(50);
     string.show();
     timerThen = millis();
 }
@@ -164,17 +164,17 @@ void demoReel(uint16_t timeout) {
     uint16_t cometHue = random(0, 65535);
 
     switch (mode) {
-    case 0:
+    case 1:
         comet(25, cometHue, cometHue);
         break;
-    case 1:
-        monoRainbow(150, 1);
+    case 3:
+        monoRainbow(1000, 1);
         break;
     case 2:
-        comet(12, 0, 65535);
+        comet(12, 1, 65534);
         break;
-    case 3:
-        string.fill(colWarmWhite);
+    case 0:
+        string.fill(string.ColorHSV(3600, 240, 255), 0, LED_COUNT-1);
         string.show();
         break;
     case 4:
